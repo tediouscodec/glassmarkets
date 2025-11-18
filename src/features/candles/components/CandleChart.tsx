@@ -1,13 +1,11 @@
 import { useEffect, useRef } from "react";
-import { createChart, CandlestickSeries, type ISeriesApi, type UTCTimestamp } from "lightweight-charts";
+import { createChart, CandlestickSeries, type ISeriesApi, type UTCTimestamp, type CandlestickData, type Time } from "lightweight-charts";
 import { useCandleStore } from "../store/candleStore";
 
 export default function CandleChart({ height = 360 }) {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const chartRef = useRef<ReturnType<typeof createChart> | null>(null);
     const seriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
-
-    const candles = useCandleStore((s) => s.candles);
 
     useEffect(() => {
         if (!containerRef.current) return;
@@ -47,17 +45,16 @@ export default function CandleChart({ height = 360 }) {
 
     useEffect(() => {
         if (!seriesRef.current) return;
-
-        const data = candles.map((c) => ({
-            time: c.time as UTCTimestamp,
-            open: c.open,
-            high: c.high,
-            low: c.low,
-            close: c.close,
-        }));
-
-        seriesRef.current.setData(data);
-    }, [candles]);
+        return useCandleStore.subscribe(
+            (state) => state.lastUpdatedCandle,
+            (updatedCandle) => {
+                if (!updatedCandle) return;
+                const series = seriesRef.current;
+                if (!series) return;
+                series.update(updatedCandle as CandlestickData);
+            }
+        );;
+    }, []);
 
     return <div ref={containerRef} className="w-full" style={{ height }} />;
 }
