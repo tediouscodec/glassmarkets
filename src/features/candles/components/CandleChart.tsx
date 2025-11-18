@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { createChart, CandlestickSeries, type ISeriesApi, type UTCTimestamp, type CandlestickData, type Time } from "lightweight-charts";
+import { createChart, CandlestickSeries, type ISeriesApi, type CandlestickData } from "lightweight-charts";
 import { useCandleStore } from "../store/candleStore";
 
 export default function CandleChart({ height = 360 }) {

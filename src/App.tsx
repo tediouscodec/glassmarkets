@@ -4,6 +4,7 @@ import Orderbook from "./features/orderbook/components/Orderbook";
 import LiquidityMetrics from "./features/orderbook/components/LiquidityMetrics";
 import CandleChart from "./features/candles/components/CandleChart";
 import MarketSelector from "./features/market/components/MarketSelector";
+import DepthChart from "./features/orderbook/components/DepthChart";
 
 export default function App() {
   useEffect(() => {
@@ -16,6 +17,7 @@ export default function App() {
         <MarketSelector />
         <CandleChart />
         <Orderbook />
+        <DepthChart />
         <LiquidityMetrics />
       </main>
     </div>

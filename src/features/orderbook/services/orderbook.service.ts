@@ -10,6 +10,8 @@ class OrderbookService {
         if (this.currentSymbol === symbol) return;
         this.currentSymbol = symbol;
 
+        useOrderbookStore.setState({ depthHistory: [] });
+
         await this.unsubscribe();
 
         await hlws.waitUntilReady();
